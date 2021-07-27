@@ -24,10 +24,9 @@ int max(int a, int b)
  *
  * Return: number of bytes printed
  */
-uint print_int_format(FormatOptions *opt, va_list *args)
+uint print_int_format(FormatOptions *opt, ulong args)
 {
-	long arg = opt->length == 'h' ? (short)va_arg(*args, int) :
-		opt->length == 'l' ? (long)va_arg(*args, long) : (int)va_arg(*args, int);
+	long arg = args;
 	char arg_str[12];
 	char sign = arg < 0 ? '-' : str_has_char(opt->flags, '+') ?
 		'+' : str_has_char(opt->flags, ' ') ? ' ' : 0;
@@ -70,11 +69,9 @@ uint print_int_format(FormatOptions *opt, va_list *args)
  *
  * Return: number of bytes printed
  */
-uint print_uint_format(FormatOptions *opt, va_list *args)
+uint print_uint_format(FormatOptions *opt, ulong args)
 {
-	ulong arg = opt->length == 'h' ? (ushort)va_arg(*args, uint)
-		: opt->length == 'l' ? (ulong)va_arg(*args, ulong)
-		: (uint)va_arg(*args, uint);
+	ulong arg = args;
 	char arg_str[8 * sizeof(uint) + 1];
 	char *prefix = !str_has_char(opt->flags, '#') ? "" :
 		opt->specifier == 'x' ? "0x" : opt->specifier == 'X' ?
@@ -119,22 +116,27 @@ uint print_uint_format(FormatOptions *opt, va_list *args)
  *
  * Return: number of bytes printed
  */
-uint print_str_format(FormatOptions *opt, va_list *args)
+uint print_str_format(FormatOptions *opt, ulong args)
 {
 	char placeholder[] = "0";
-	char *arg = str_has_char("sSrR", opt->specifier) ?
-		va_arg(*args, char *) : placeholder;
-	*placeholder = (opt->specifier == 'c') * va_arg(*args, int);
+	char *arg = opt->specifier == 'c' ? placeholder : (char *)args;
+	*placeholder = opt->specifier == 'c' ? args : 0;
+/* (opt->specifier == 'c') * va_arg(*args, int); */
 	uint cursor, arg_len = str_len(arg);
 	uint padding_len;
 
+	arg = arg == NULL ? (opt->specifier == 'p' ? "nil" : "(null)") : arg;
+	arg_len = str_len(arg);
 	if (opt->specifier == 'S')
 		for (cursor = 0; arg[cursor]; cursor++)
 			if (!(arg[cursor] >= 32 && arg[cursor] < 127))
 				arg_len += 2;
 	padding_len = (opt->width > arg_len ? opt->width : arg_len) - arg_len;
 	put_char_repeat(' ', padding_len * !str_has_char(opt->flags, '-'));
-	put_char_str(arg, opt->specifier);
+	if (opt->specifier == 'c')
+		put_char(*placeholder, 0);
+	else
+		put_char_str(arg, opt->specifier);
 	put_char_repeat(' ', padding_len * str_has_char(opt->flags, '-'));
 	return (arg_len + padding_len);
 }
@@ -151,6 +153,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 {
 	char *flags = "+ #0-", *lengths = "lh", *specifiers = "dicsbuoxXSprR";
 	uint i = 0;
+	ulong arg;
 	FormatOptions *opt = malloc(sizeof(FormatOptions));
 
 	opt->flags[0] = '\0', opt->width = 0, opt->precision =
@@ -163,8 +166,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 		while (format[i] >= '0' && format[i] <= '9' &&
 			   (opt->width < opt->width * 10 + (format[i] - '0')))
 			opt->width = (opt->width) * 10 + (format[i++] - '0');
-	if (format[i] == '.')
-		opt->precision = 0;
+	(format[i] == '.') ? (opt->precision = 0) : 0;
 	if (format[i] == '.' && format[i + 1] == '*')
 		i += 2, opt->precision = va_arg(*args, uint);
 	else if (format[i] == '.' && (format[i + 1] < '0' || format[i + 1] > '9'))
@@ -178,14 +180,13 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 	if (str_has_char(specifiers, format[i]))
 	{
 		opt->specifier = format[i];
-		if (opt->specifier == 'p')
-			opt->specifier = 'x', str_add_unique_char(
-				opt->flags, '#'), opt->length = sizeof(void *) == 8 ? 'l' : '0';
-		uint (*handler)(FormatOptions *opt, va_list *args) =
+		arg = read_arg(opt, args);
+		uint (*handler)(FormatOptions *, ulong) =
 			str_has_char("di", opt->specifier) ? print_int_format
 			: str_has_char("uoxXb", opt->specifier) ? print_uint_format
-			: str_has_char("sSrR", opt->specifier) ? print_str_format : NULL;
-		return (handler == NULL ? 1 : handler(opt, args));
+			: str_has_char("sSrRc", opt->specifier) ? print_str_format
+			: opt->specifier == 'p' ? print_pointer_format : NULL;
+		return (handler == NULL ? 1 : handler(opt, arg));
 	}
 	else
 		return (put_char('%', 0), 1);
