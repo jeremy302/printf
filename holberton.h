@@ -45,6 +45,7 @@ uint str_add_unique_char(char *str, char c);
 uint num_to_str(long num, uchar base, char *out, uchar lower, int sig0);
 uint unum_to_str(ulong num, uchar base, char *out, uchar lower, int sig0);
 
+int max(int a, int b);
 ulong read_arg(FormatOptions *opt, va_list *args);
 
 uint print_format(const char *format, va_list *args, uint *cursor);

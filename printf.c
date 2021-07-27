@@ -3,19 +3,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-/*#define MAX(x,y) ((x) > (y) ? (x) : (y))*/
-
-/**
- * max - returns the bigger of 2 integers
- * @a: an integer
- * @b: an integer
- *
- * Return: the highest parameters
- */
-int max(int a, int b)
-{
-	return (a >= b ? a : b);
-}
 
 /**
  * print_int_format - prints an integer with the given options

@@ -1,6 +1,18 @@
 #include "holberton.h"
 
 /**
+ * max - returns the bigger of 2 integers
+ * @a: an integer
+ * @b: an integer
+ *
+ * Return: the highest parameters
+ */
+int max(int a, int b)
+{
+	return (a >= b ? a : b);
+}
+
+/**
  * read_arg - reads the next argument from `args`
  * @opt: format option
  * @args: argument list to read from
