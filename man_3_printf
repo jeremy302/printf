@@ -3,43 +3,76 @@
 .TH man 8 "27 July 2021" "1.0" "nuseradd man page"
 .SH NAME
 _printf \- prints a string in a given format
+
 .SH SYNOPSIS
-Prototype: _printf(const char *FORMAT, ...)
+
+.SS Header files:
+.br
+#include <holberton.h>
+.br
+#include <stdarg.h>
+.br
+#include <stdio.h>
+.br
+.br
+
+.SS Prototype:
+_printf(const char *FORMAT, ...)
 E.g: _printf("a number: %d", 5) >> "a number: 5"
 A format option takes the form:
 %[flags][width][.precision][length]specifier
 
-SPECIFIERS:
-d \- a decimal integer (base 10)
-i \- an integer (base 10 for printf)
-u \- an unsigned integer
-o \- an octal
-x \- a hexadecimal (lowercase)
-X \- a hexadecimal (uppercase)
-c \- an ascii character
-s \- a string of ascii characters
-S \- a string of ascii characters, but non-printable characters are printed in the form: \xx
-r \- a string of ascii characters in reverse
-R \- the rot13 of a string of ascii characters
-p \- a pointer (format: 0x1234567891)
+.SS SPECIFIERS:
+%d \- a decimal integer (base 10)
+.br
+%i \- an integer (base 10 for printf)
+.br
+%u \- an unsigned integer
+.br
+%o \- an octal
+.br
+%x \- a hexadecimal (lowercase)
+.br
+%X \- a hexadecimal (uppercase)
+.br
+%c \- an ascii character
+.br
+%s \- a string of ascii characters
+.br
+%S \- a string of ascii characters, but non-printable characters are printed in the form
+.br
+%r \- a string of ascii characters in reverse
+.br
+%R \- the rot13 of a string of ascii characters
+.br
+%p \- a pointer (format: 0x1234567891)
+.br
+%% \- a % followed by another % character will write a single % to the stream (\% also works)
 
-FLAGS:
+.SS FLAGS:
 + \- forces a sign for unsigned specifiers
+.br
 - \- left aligns format
+.br
 0 \- pads with 0's rather than spaces
+.br
 # \- prepends "0" to octals, and "0x" to hexadecimals
+.br
 (space) \- forces a space for unsigned positives
 
-WIDTHS:
+.SS WIDTHS:
 (number) \- specifies the minimum width
+.br
 * \- uses the next argument as the width
 
-PRECISIONS:
+.SS PRECISIONS:
 .(number) \- specifies the minimum number of digits for integers, and the decimal placbes for floats
+.br
 * \- uses the next argument as the precision
 
-LENGTHS:
+.SS LENGTHS:
 h - treats the argument as a short int
+.br
 l - treats the argument as a long int
 
 .SH DESCRIPTION
@@ -47,6 +80,20 @@ _printf writes a string of characters to the standard output, when it encounters
 
 .SH OPTIONS
 Format of _printf: %[flags][width][.precision][length]specifier
+.SH EXAMPLES
+#include <stdio.h>
+.br
+#include <stlib.h>
+.br
+int main()
+.br
+{
+.br
+	printf("Character to print: %s\n", "Holberton");
+.br
+}
+.SS Output:
+Character to print: Holberton
 .SH SEE ALSO
 printf(3)
 .SH BUGS
