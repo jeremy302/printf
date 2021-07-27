@@ -58,8 +58,8 @@ uint print_int_format(FormatOptions *opt, ulong args)
  */
 uint print_uint_format(FormatOptions *opt, ulong args)
 {
-	ulong arg = args;
-	char arg_str[8 * sizeof(uint) + 1];
+	ulong arg = opt->length == 0 ? (uint)args : args;
+	char arg_str[10 * sizeof(ulong) + 1];
 	char *prefix = !str_has_char(opt->flags, '#') ? "" :
 		opt->specifier == 'x' ? "0x" : opt->specifier == 'X' ?
 		"0X" : opt->specifier == 'o' ? "0" : "";
