@@ -174,7 +174,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 		return (handler == NULL ? 1 : handler(opt, arg));
 	}
 	else
-		return (put_char('%', 0), 1);
+		return ((void) cursor_tmp,put_char('%', 0), 1);
 }
 
 /**
