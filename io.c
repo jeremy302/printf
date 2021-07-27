@@ -80,11 +80,11 @@ unsigned int put_char_str(char *str, char specifier)
 				put_char('0', 0);
 			num_to_str(c, 16, c_str, 0, 1);
 			put_str(c_str);
-			print_len += 3;
+			print_len += 4;
 		}
 		else if (specifier == 'R')
 			put_char(c >= 'A' && c <= 'Z' ? ((c - 'A' + 13) % 26) + 'A'
-					 : c >= 'a' && c <= 'z' ?
+					 : (c >= 'a' && c <= 'z') ?
 					 ((c - 'a' + 13) % 26) + 'a' : c, 0);
 		else
 			put_char(c, 0);
