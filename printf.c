@@ -120,11 +120,10 @@ uint print_str_format(FormatOptions *opt, ulong args)
 {
 	char placeholder[] = "0";
 	char *arg = opt->specifier == 'c' ? placeholder : (char *)args;
-	*placeholder = opt->specifier == 'c' ? args : 0;
-/* (opt->specifier == 'c') * va_arg(*args, int); */
 	uint cursor, arg_len = str_len(arg);
 	uint padding_len;
 
+	*placeholder = opt->specifier == 'c' ? args : 0;
 	arg = arg == NULL ? (opt->specifier == 'p' ? "nil" : "(null)") : arg;
 	arg_len = str_len(arg);
 	if (opt->specifier == 'S')
@@ -152,6 +151,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 uint print_format(const char *format, va_list *args, uint *cursor)
 {
 	char *flags = "+ #0-", *lengths = "lh", *specifiers = "dicsbuoxXSprR";
+	uint (*handler)(FormatOptions *, ulong);
 	uint i = 0;
 	ulong arg;
 	FormatOptions *opt = malloc(sizeof(FormatOptions));
@@ -179,9 +179,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 	*cursor += i + 1;
 	if (str_has_char(specifiers, format[i]))
 	{
-		opt->specifier = format[i];
-		arg = read_arg(opt, args);
-		uint (*handler)(FormatOptions *, ulong) =
+		opt->specifier = format[i], arg = read_arg(opt, args), handler =
 			str_has_char("di", opt->specifier) ? print_int_format
 			: str_has_char("uoxXb", opt->specifier) ? print_uint_format
 			: str_has_char("sSrRc", opt->specifier) ? print_str_format
