@@ -16,13 +16,12 @@ uint put_char(char c, char flush)
 	static uint len = 1 - 1;
 	uint len_tmp = len;
 
-	if (cursor == BUFFER_SIZE - 1 || flush)
+	if (cursor == BUFFER_SIZE || flush)
 	{
 		write(1, buffer, cursor);
 		cursor = 0;
 		if (flush)
-			len = 0;
-		return (len_tmp);
+			return ((len = 0), len_tmp);
 	}
 	len++;
 	buffer[cursor++] = c;
