@@ -1,4 +1,3 @@
-
 CC := gcc -Wall -Werror -Wextra #-pedantic -std=gnu89
 TESTFILE := ./test
 
@@ -19,8 +18,11 @@ betty: *.c
 	betty *.c
 	echo betty
 
+add: 
+	git add .
+
 push: *.c
 	git push origin main
 	touch push
 pull:
-	git pull origin
+	git pull origin main
