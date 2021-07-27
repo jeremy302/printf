@@ -139,7 +139,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 {
 	char *flags = "+ #0-", *lengths = "lh", *specifiers = "dicsbuoxXSprR";
 	uint (*handler)(FormatOptions *, ulong);
-	uint i = 0;
+	uint i = 0, cursor_tmp = *cursor;
 	ulong arg;
 	FormatOptions *opt = malloc(sizeof(FormatOptions));
 
@@ -174,7 +174,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 		return (handler == NULL ? 1 : handler(opt, arg));
 	}
 	else
-		return (put_char('%', 0), 1);
+		return ((*cursor = cursor_tmp), put_char('%', 0), 1);
 }
 
 /**
