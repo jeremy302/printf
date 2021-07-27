@@ -1,0 +1,55 @@
+.\" Manpage for _printf.
+
+.TH man 8 "27 July 2021" "1.0" "nuseradd man page"
+.SH NAME
+_printf \- prints a string in a given format
+.SH SYNOPSIS
+Prototype: _printf(const char *FORMAT, ...)
+E.g: _printf("a number: %d", 5) >> "a number: 5"
+A format option takes the form:
+%[flags][width][.precision][length]specifier
+
+SPECIFIERS:
+d \- a decimal integer (base 10)
+i \- an integer (base 10 for printf)
+u \- an unsigned integer
+o \- an octal
+x \- a hexadecimal (lowercase)
+X \- a hexadecimal (uppercase)
+c \- an ascii character
+s \- a string of ascii characters
+S \- a string of ascii characters, but non-printable characters are printed in the form: \xx
+r \- a string of ascii characters in reverse
+R \- the rot13 of a string of ascii characters
+p \- a pointer (format: 0x1234567891)
+
+FLAGS:
++ \- forces a sign for unsigned specifiers
+- \- left aligns format
+0 \- pads with 0's rather than spaces
+# \- prepends "0" to octals, and "0x" to hexadecimals
+(space) \- forces a space for unsigned positives
+
+WIDTHS:
+(number) \- specifies the minimum width
+* \- uses the next argument as the width
+
+PRECISIONS:
+.(number) \- specifies the minimum number of digits for integers, and the decimal placbes for floats
+* \- uses the next argument as the precision
+
+LENGTHS:
+h - treats the argument as a short int
+l - treats the argument as a long int
+
+.SH DESCRIPTION
+_printf writes a string of characters to the standard output, when it encounters a '%', it tries to parse a format option with it's respective argument. If successful, the format output is written to the standard output. If it fails, raw string is written as is to the standard output. The number of bytes written is returned
+
+.SH OPTIONS
+Format of _printf: %[flags][width][.precision][length]specifier
+.SH SEE ALSO
+printf(3)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Jeremy Ola & Eva Gbaje
