@@ -116,7 +116,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 	if (opt->specifier == 'S')
 		for (cursor = 0; arg[cursor]; cursor++)
 			if (!(arg[cursor] >= 32 && arg[cursor] < 127))
-				arg_len += 2;
+				arg_len += 3;
 	padding_len = (opt->width > arg_len ? opt->width : arg_len) - arg_len;
 	put_char_repeat(' ', padding_len * !str_has_char(opt->flags, '-'));
 	if (opt->specifier == 'c')
