@@ -112,7 +112,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 
 	*placeholder = opt->specifier == 'c' ? args : 0;
 	arg = arg == NULL ? (opt->specifier == 'p' ? "nil" : opt->specifier
-						 == 'r' ? ")llun(" : opt->specifier == 'R' ? "(ahyy)" : "(null)") : arg;
+						 == 'r' ? "" : opt->specifier == 'R' ? "(ahyy)" : "(null)") : arg;
 	arg_len = str_len(arg);
 	if (opt->specifier == 'S')
 		for (cursor = 0; arg[cursor]; cursor++)
