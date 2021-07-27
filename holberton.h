@@ -1,4 +1,3 @@
-
 #ifndef HOLBERTON_H
 #define HOLBERTON_H
 
@@ -45,8 +44,13 @@ uint str_add_unique_char(char *str, char c);
 uint num_to_str(long num, uchar base, char *out, uchar lower, int sig0);
 uint unum_to_str(ulong num, uchar base, char *out, uchar lower, int sig0);
 
+int max(int a, int b);
+ulong read_arg(FormatOptions *opt, va_list *args);
+
 uint print_format(const char *format, va_list *args, uint *cursor);
-uint print_int_format(FormatOptions *options, va_list *args);
-uint print_str_format(FormatOptions *options, va_list *args);
+uint print_uint_format(FormatOptions *options, ulong args);
+uint print_int_format(FormatOptions *options, ulong args);
+uint print_str_format(FormatOptions *options, ulong args);
+uint print_pointer_format(FormatOptions *opt, ulong args);
 
 #endif
