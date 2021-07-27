@@ -108,8 +108,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 	char placeholder[] = "0";
 	char *arg = opt->specifier == 'c' ? placeholder :
 		(char *)(!!args ? (opt->specifier == 's' ? "(null)" : "") : arg);
-	uint cursor, arg_len = str_len(arg);
-	uint padding_len;
+	uint cursor, arg_len = str_len(arg), padding_len;
 
 	*placeholder = opt->specifier == 'c' ? args : 0;
 	if (opt->specifier == 'S')
@@ -140,7 +139,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 	uint (*handler)(FormatOptions *, ulong);
 	uint i = 0, cursor_tmp = *cursor;
 	ulong arg;
-	FormatOptions *opt = malloc(sizeof(FormatOptions));
+	FormatOptions optt = {.flags = {0}, .width = 0}, *opt = &optt;
 
 	opt->flags[0] = '\0', opt->width = 0, opt->precision =
 		-1, opt->length = '\0', opt->specifier = '\0';
