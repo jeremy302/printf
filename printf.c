@@ -163,9 +163,9 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 			   opt->precision < opt->precision * 10 + (format[i] - '0'))
 			opt->precision = opt->precision * 10 + (format[i] - '0');
 	(str_has_char(lengths, format[i])) ? opt->length = format[i++] : 0;
-	*cursor += i + 1;
 	if (str_has_char(specifiers, format[i]))
 	{
+		(*cursor) += i + 1;
 		opt->specifier = format[i], arg = read_arg(opt, args), handler =
 			str_has_char("di", opt->specifier) ? print_int_format
 			: str_has_char("uoxXb", opt->specifier) ? print_uint_format
