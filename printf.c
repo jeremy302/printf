@@ -5,11 +5,11 @@
 
 
 /**
- * print_int_format - prints an integer with the given options
+ * print_int_format - Prints an integer with the given options
  * @opt: Format Options
- * @args: pointer to a va_list object to get the argument from
+ * @args: Pointer to a va_list object to get the argument from
  *
- * Return: number of bytes printed
+ * Return: Number of bytes printed
  */
 uint print_int_format(FormatOptions *opt, ulong args)
 {
