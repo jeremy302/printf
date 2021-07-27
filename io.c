@@ -76,12 +76,12 @@ unsigned int put_char_str(char *str, char specifier)
 		c = str[cursor];
 		if (specifier == 'S' && !(c >= 32 && c < 127))
 		{
-			put_char('\\', 0);
+			put_char('\\', 0), put_char('x', 0);
 			if (c < 16)
 				put_char('0', 0);
-			num_to_str(c, 16, c_str, 1, 1);
+			num_to_str(c, 16, c_str, 0, 1);
 			put_str(c_str);
-			print_len += 2;
+			print_len += 3;
 		}
 		else if (specifier == 'R')
 			put_char(c >= 'A' && c <= 'Z' ? ((c - 'A' + 13) % 26) + 'A'
