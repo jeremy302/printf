@@ -5,6 +5,7 @@
 /**
  * put_char - writes a byte to standard output. uses a buffer of 1024 bytes
  * @c: a byte
+ * @flush: a byte
  *
  * Return: 1 if the buffer was flushed, else 0
  */
