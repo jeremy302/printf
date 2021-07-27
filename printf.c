@@ -139,7 +139,7 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 	uint (*handler)(FormatOptions *, ulong);
 	uint i = 0, cursor_tmp = *cursor;
 	ulong arg;
-	FormatOptions optt = {.flags = {0}, .width = 0}, *opt = &optt;
+	FormatOptions optt, *opt = &optt;
 
 	opt->flags[0] = '\0', opt->width = 0, opt->precision =
 		-1, opt->length = '\0', opt->specifier = '\0';
