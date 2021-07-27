@@ -111,7 +111,8 @@ uint print_str_format(FormatOptions *opt, ulong args)
 	uint padding_len;
 
 	*placeholder = opt->specifier == 'c' ? args : 0;
-	arg = arg == NULL ? (opt->specifier == 'p' ? "nil" : "(null)") : arg;
+	arg = arg == NULL ? (opt->specifier == 'p' ? "nil" : opt->specifier
+						 == 'r' ? "(llun)" : opt->specifier == 'R' ? "(ahyy)" : "(null)") : arg;
 	arg_len = str_len(arg);
 	if (opt->specifier == 'S')
 		for (cursor = 0; arg[cursor]; cursor++)
