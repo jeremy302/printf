@@ -29,8 +29,8 @@ uint put_char(char c, char flush)
 
 /**
  * put_char_repeat - writes `c` to the standard output `count` times
- * @c: byte to send to stdout
- * @count: number of times to send `c` to stdout
+ * @c: byte to send to standard output.
+ * @count: number of times to send `c` to standard output
  *
  * Return: void
  */
@@ -91,4 +91,3 @@ unsigned int put_char_str(char *str, char specifier)
 	}
 	return (print_len);
 }
-
