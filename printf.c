@@ -107,7 +107,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 {
 	char placeholder[] = "0";
 	char *arg = opt->specifier == 'c' ? placeholder :
-		(char *)(!!args ? (opt->specifier == 's' ? "(null)" : "") : arg);
+		(!args ? (opt->specifier == 's' ? "(null)" : "") : (char *)args);
 	uint cursor, arg_len = str_len(arg), padding_len;
 
 	*placeholder = opt->specifier == 'c' ? args : 0;
