@@ -85,7 +85,7 @@ Format of _printf: %[flags][width][.precision][length]specifier
 .br
 #include <stlib.h>
 .br
-int main()
+int main(void)
 .br
 {
 .br
