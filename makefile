@@ -1,4 +1,4 @@
-CC := gcc -Wall -Werror -Wextra #-pedantic -std=gnu89
+CC := gcc #-Wall -Werror -Wextra -pedantic -std=gnu89
 TESTFILE := ./test
 
 test: test.c *.o
@@ -20,6 +20,8 @@ betty: *.c
 
 add: 
 	git add .
+commit:
+	git commit -m "Commit changes"
 
 push: *.c
 	git push origin main
