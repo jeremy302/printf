@@ -59,14 +59,16 @@ unsigned int put_str(char *str)
  * put_char_str - writes a string to the standard output in a given format
  * @str: a string
  * @specifier: format specifier
+ * @precision: format precision
  *
  * Return: the number of bytes written
  */
-unsigned int put_char_str(char *str, char specifier)
+unsigned int put_char_str(char *str, char specifier, int precision)
 {
 	int len = str_len(str), print_len = len;
 	int cursor = specifier == 'r' ? len - 1 : 0;
-	int end = specifier == 'r' ? -1 : len;
+	int max_l = precision > 0 && precision < len ? precision : len;
+	int end = specifier == 'r' ? len - max_l - 1 : max_l;
 	uchar c;
 	char c_str[3] = {0, 0, 0};
 

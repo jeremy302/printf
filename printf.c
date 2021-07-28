@@ -89,7 +89,8 @@ uint print_uint_format(FormatOptions *opt, ulong args)
 	else
 	{
 		put_char_repeat(' ', padding_len);
-		put_str(prefix);
+		if ((opt->specifier != 'o' || *arg_str != '0'))
+			put_str(prefix);
 		put_char_repeat('0', zeros_len);
 		put_str(arg_str);
 	}
@@ -120,7 +121,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 	if (opt->specifier == 'c')
 		put_char(*placeholder, 0);
 	else
-		put_char_str(arg, opt->specifier);
+		put_char_str(arg, opt->specifier, opt->precision);
 	put_char_repeat(' ', padding_len * str_has_char(opt->flags, '-'));
 	return (arg_len + padding_len);
 }
@@ -136,8 +137,8 @@ uint print_str_format(FormatOptions *opt, ulong args)
 uint print_format(const char *format, va_list *args, uint *cursor)
 {
 	char *flags = "+ #0-", *lengths = "lh", *specifiers = "dicsbuoxXSprR";
-	uint (*handler)(FormatOptions *, ulong);
-	uint i = 0, cursor_tmp = *cursor;
+	uint i = 0, cursor_tmp = *cursor, (*handler)(FormatOptions *, ulong);
+	int w;
 	ulong arg;
 	FormatOptions optt, *opt = &optt;
 
@@ -146,14 +147,15 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 	while (str_has_char(flags, format[i]))
 		str_add_unique_char(opt->flags, format[i++]);
 	if (format[i] == '*')
-		i++, opt->width = va_arg(*args, uint);
+		i++, w = va_arg(*args, int), (w < 0 ? str_add_unique_char
+			 (opt->flags, '-') : 0), opt->width = w < 0 ? 0 - w : w;
 	else
 		while (format[i] >= '0' && format[i] <= '9' &&
 			   (opt->width < opt->width * 10 + (format[i] - '0')))
 			opt->width = (opt->width) * 10 + (format[i++] - '0');
 	(format[i] == '.') ? (opt->precision = 0) : 0;
 	if (format[i] == '.' && format[i + 1] == '*')
-		i += 2, opt->precision = va_arg(*args, uint);
+		i += 2, opt->precision = va_arg(*args, int);
 	else if (format[i] == '.' && (format[i + 1] < '0' || format[i + 1] > '9'))
 		i++, opt->precision = 0;
 	else if (format[i] == '.')
