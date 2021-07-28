@@ -1,11 +1,11 @@
 #include "holberton.h"
 
 /**
- * max - returns the bigger of 2 integers
+ * max - returns the maximum number of 2 integers
  * @a: an integer
  * @b: an integer
  *
- * Return: the highest parameters
+ * Return: the highest parameters.
  */
 int max(int a, int b)
 {
