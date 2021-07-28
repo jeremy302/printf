@@ -26,16 +26,15 @@ typedef struct FormatOptions
 {
 	char flags[FLAGS_COUNT];
 	uint width;
-	int precision;
+	uint precision;
 	char length;
 	char specifier;
-	char p_set;
 } FormatOptions;
 
 uint put_char(char c, char flush);
 uint put_str(char *str);
 void put_char_repeat(char c, uint count);
-unsigned int put_char_str(char *str, char specifier, int precision);
+unsigned int put_char_str(char *str, char specifier);
 int _printf(const char *format, ...);
 
 uint str_len(char *str);
@@ -55,8 +54,3 @@ uint print_str_format(FormatOptions *options, ulong args);
 uint print_pointer_format(FormatOptions *opt, ulong args);
 
 #endif
-
-
-
-
-
