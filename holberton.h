@@ -2,9 +2,6 @@
 #define HOLBERTON_H
 
 #include <stdarg.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <assert.h>
 
 #ifndef NULL
 #define NULL
@@ -57,6 +54,7 @@ uint print_str_format(FormatOptions *options, ulong args);
 uint print_pointer_format(FormatOptions *opt, ulong args);
 
 #endif
+
 
 
 
