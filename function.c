@@ -6,7 +6,7 @@
  * @c: char
  * Return: on success 1, otherwise -1
  */
-int put_char(char c)
+int _putchar(char c)
 {
 	static char buf[KILOBYTE];
 	static int i;
