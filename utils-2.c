@@ -1,4 +1,5 @@
 #include "holberton.h"
+#include <stdio.h>
 
 /**
  * max - returns the maximum number of 2 integers
@@ -32,7 +33,8 @@ ulong read_arg(FormatOptions *opt, va_list *args)
 	else if (str_has_char("sSrRc", opt->specifier))
 		return (str_has_char("sSrR", opt->specifier) ?
 				(ulong)va_arg(*args, char *) : va_arg(*args, int));
-
+	else if (opt->specifier == 'p')
+		return ((ulong)va_arg(*args, void *));
 	return (va_arg(*args, int));
 }
 /**
