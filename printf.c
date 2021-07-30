@@ -106,11 +106,13 @@ uint print_uint_format(FormatOptions *opt, ulong args)
  */
 uint print_str_format(FormatOptions *opt, ulong args)
 {
-	char placeholder[] = "0";
+	char placeholder[2] = "0";
 	char *arg = opt->specifier == 'c' ? placeholder :
 		(!args ? (opt->specifier == 's' ? "(null)" : "") : (char *)args);
 	uint cursor, arg_len = str_len(arg), padding_len;
 
+	if (opt->specifier == 's' && arg_len > (uint)opt->precision)
+		arg_len = opt->precision;
 	*placeholder = opt->specifier == 'c' ? args : 0;
 	if (opt->specifier == 'S')
 		for (cursor = 0; arg[cursor]; cursor++)
@@ -121,7 +123,7 @@ uint print_str_format(FormatOptions *opt, ulong args)
 	if (opt->specifier == 'c')
 		put_char(*placeholder, 0);
 	else
-		put_char_str(arg, opt->specifier);
+		put_char_str(arg, opt->specifier, opt->precision);
 	put_char_repeat(' ', padding_len * str_has_char(opt->flags, '-'));
 	return (arg_len + padding_len);
 }
