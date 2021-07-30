@@ -8,7 +8,7 @@
 #endif
 
 #define FLAGS_COUNT 5
-#define MAX_NUM_LEN 21
+#define MAX_NUM_LEN (8 * 8 + 2)
 
 typedef unsigned int uint;
 typedef unsigned long ulong;
