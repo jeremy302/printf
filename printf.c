@@ -159,7 +159,8 @@ uint print_format(const char *format, va_list *args, uint *cursor)
 		i++, opt->precision = 0;
 	else if (format[i] == '.')
 		while (i++, format[i] >= '0' && format[i] <= '9' &&
-			   opt->precision < opt->precision * 10 + (format[i] - '0'))
+			   (opt->precision == 0 ||
+				(opt->precision < opt->precision * 10 + (format[i] - '0'))))
 			opt->precision = opt->precision * 10 + (format[i] - '0');
 	(str_has_char(lengths, format[i])) ? opt->length = format[i++] : 0;
 	(*cursor) += i + 1;
