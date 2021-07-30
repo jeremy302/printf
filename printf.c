@@ -1,3 +1,4 @@
+
 #include "holberton.h"
 #include "stdio.h"
 #include <unistd.h>
@@ -60,7 +61,7 @@ uint print_uint_format(FormatOptions *opt, ulong args)
 {
 	ulong arg = opt->length == 0 ? (uint)args : args;
 	char arg_str[10 * sizeof(ulong) + 1];
-	char *prefix = !str_has_char(opt->flags, '#') ? "" :
+	char *prefix = !str_has_char(opt->flags, '#') || !args ? "" :
 		opt->specifier == 'x' ? "0x" : opt->specifier == 'X' ?
 		"0X" : opt->specifier == 'o' ? "0" : "";
 	uchar base = str_has_char("xX", opt->specifier) ? 16 :
@@ -68,7 +69,7 @@ uint print_uint_format(FormatOptions *opt, ulong args)
 	uint arg_len = unum_to_str(arg, base, arg_str,
 							   opt->specifier == 'x', opt->precision > 0) + str_len(prefix);
 	int zeros_len = max((opt->precision - (arg_len - str_len(prefix)) -
-						 (opt->specifier == 'o' && str_has_char(opt->flags, '#'))), 0);
+						 (args && opt->specifier == 'o' && str_has_char(opt->flags, '#'))), 0);
 	int padding_len = max(opt->width - (zeros_len + arg_len), 0);
 
 	if (str_has_char(opt->flags, '-'))
