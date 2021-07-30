@@ -15,7 +15,7 @@
 uint print_int_format(FormatOptions *opt, ulong args)
 {
 	long arg = args;
-	char arg_str[12];
+	char arg_str[MAX_NUM_LEN];
 	char sign = arg < 0 ? '-' : str_has_char(opt->flags, '+') ?
 		'+' : str_has_char(opt->flags, ' ') ? ' ' : 0;
 	uint arg_len = num_to_str(arg, 10, arg_str, 1, opt->precision > 0) + !!sign;
@@ -60,7 +60,7 @@ uint print_int_format(FormatOptions *opt, ulong args)
 uint print_uint_format(FormatOptions *opt, ulong args)
 {
 	ulong arg = opt->length == 0 ? (uint)args : args;
-	char arg_str[10 * sizeof(ulong) + 1];
+	char arg_str[MAX_NUM_LEN];
 	char *prefix = !str_has_char(opt->flags, '#') || !args ? "" :
 		opt->specifier == 'x' ? "0x" : opt->specifier == 'X' ?
 		"0X" : opt->specifier == 'o' ? "0" : "";
